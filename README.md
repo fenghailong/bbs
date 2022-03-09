@@ -1,5 +1,5 @@
 # larabbs-miniprogram
-微信小程序BBS，基于wepy，后端接口见：https://github.com/HubQin/larabbs6
+微信小程序BBS，基于wepy
 
 # 页面展示
 
