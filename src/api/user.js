@@ -1,5 +1,12 @@
 import { request, authRequest, uploadFile } from '@/utils/request'
 
+export async function getUser(data) {
+  return await wx.cloud.callFunction({
+    name: 'getUser',
+    data,
+  })
+}
+
 export function getCurrentUser(data) {
   return authRequest('user')
 }
@@ -31,9 +38,9 @@ export function updateAvatar(avatar) {
   })
 }
 
-export function getUser(id) {
-  return request('users/' + id)
-}
+// export function getUser(id) {
+//   return request('users/' + id)
+// }
 
 export function getPerms() {
   return authRequest('user/permissions')

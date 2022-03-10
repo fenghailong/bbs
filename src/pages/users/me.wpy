@@ -78,6 +78,7 @@
   import store from '@/store'
   import { mapGetters } from '@wepy/x'
   import syncBadge from '@/mixins/sync-badge'
+  import { getUser } from '@/api/user'
 
   wepy.page({
     store,
@@ -85,7 +86,15 @@
     computed: {
       ...mapGetters(['user','isLoggedIn', 'unreadCount'])
     },
+
+    async onLoad() {
+      this.getUser()
+    },
     methods: {
+
+      async getUser() {
+        await getUser()
+      },
       // 退出
       async logout () {
         try {
