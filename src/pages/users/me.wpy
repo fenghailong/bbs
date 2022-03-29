@@ -33,7 +33,7 @@
           <div class="weui-cell__ft weui-cell__ft_in-access"></div>
         </a>
         <!-- 未登录 -->
-        <a class="weui-cell weui-cell_access" v-else url="/pages/auth/login">
+        <button class="weui-cell weui-cell_access" v-else url="/pages/auth/login">
           <div class="weui-cell__hd avatar-wrap">
             <image src="/assets/images/user.png" class="avatar"/>
           </div>
@@ -41,7 +41,7 @@
             <div>未登录</div>
           </div>
           <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-        </a>
+        </button>
         <a class="weui-cell weui-cell_access" url="/pages/notifications/index">
           <div class="weui-cell__bd" url="">
             <div class="weui-cell__bd">我的消息</div>
@@ -61,9 +61,6 @@
           </div>
           <div class="weui-cell__ft weui-cell__ft_in-access"></div>
         </a>
-      </div>
-      <div class="page__bd page__bd_spacing logout">
-        <button class="weui-btn" type="warn" v-if="isLoggedIn" @tap="logout">退出登录</button>
       </div>
     </div>
   </div>
@@ -86,15 +83,10 @@
     computed: {
       ...mapGetters(['user','isLoggedIn', 'unreadCount'])
     },
-
-    async onLoad() {
-      this.getUser()
+    async onShow() {
+      await this.$store.dispatch('getUser')
     },
     methods: {
-
-      async getUser() {
-        await getUser()
-      },
       // 退出
       async logout () {
         try {

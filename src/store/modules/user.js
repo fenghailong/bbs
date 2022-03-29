@@ -2,14 +2,13 @@ import wepy from '@wepy/core'
 import { login, refresh, register } from '@/api/auth'
 import * as auth from '@/utils/auth'
 import isEmpty from 'lodash/isEmpty'
-import { getCurrentUser, logout, updateUser, getPerms } from '@/api/user'
+import { getUser, logout, updateUser } from '@/api/user'
 
 const getDefaultState = () => {
   return {
     user: auth.getUser(),
     accessToken: auth.getToken(),
     accessTokenExpiredAt: auth.getTokenExpiredAt(),
-    perms: auth.getPerms()
   }
 }
 
@@ -17,11 +16,10 @@ const state = getDefaultState()
 
 // 定义 getters
 var getters = {
-  isLoggedIn: state => !isEmpty(state.accessToken),
+  isLoggedIn: state => !isEmpty(state.user),
   user: state => state.user,
   accessToken: state => state.accessToken,
   accessTokenExpiredAt: state => state.accessTokenExpiredAt,
-  perms: state => state.perms
 }
 
 // 定义 actions
@@ -47,19 +45,10 @@ const actions = {
   },
 
   async getUser ({ dispatch, commit }) {
-    const userResponse = await getCurrentUser()
+    const userResponse = await getUser()
 
-    commit('setUser', userResponse.data)
-    auth.setUser(userResponse.data)
-
-    dispatch('getPerms')
-  },
-
-  async getPerms ({ commit }) {
-    const permResponse = await getPerms()
-
-    commit('setPerms', permResponse.data.data)
-    auth.setPerms(permResponse.data.data)
+    commit('setUser', userResponse.result[0].userInfo)
+    auth.setUser(userResponse.result[0].userInfo)
   },
 
   async refresh ({ dispatch, commit, state }, params = {}) {
@@ -98,10 +87,6 @@ const mutations = {
 
   resetState: (state) => {
     Object.assign(state, getDefaultState())
-  },
-
-  setPerms(state, perms) {
-    state.perms = perms
   }
 }
 

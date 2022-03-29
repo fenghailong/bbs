@@ -2,8 +2,11 @@ import { request, authRequest, uploadFile } from '@/utils/request'
 
 export async function getUser(data) {
   return await wx.cloud.callFunction({
-    name: 'getUser',
-    data,
+    name: 'user',
+    data: {
+      func: 'getUser',
+      data,
+    },
   })
 }
 
