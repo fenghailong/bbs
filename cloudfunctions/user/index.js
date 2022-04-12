@@ -5,23 +5,23 @@ cloud.init({
 const db = cloud.database();
 const collection = db.collection('users');
 
-const addUser = async (_openid, userInfo) => {
+const addUser = async (_openid, data) => {
   const hasUser = await collection.where({ wechat_openid: _openid }).get();
   if (Array.isArray(hasUser.data) && hasUser.data.length === 0) {
     await collection.add({
       data: {
         wechat_openid: _openid,
-        userInfo
+        userInfo: {}
       }
     });
   } else {
-    await collection.doc('wechat_openid').update({
+    await collection.doc(data._id).update({
       data: {
-        userInfo
+        userInfo: data.userInfo
       }
     });
   }
-  return userInfo;
+  return data.userInfo;
 }
 
 const getUser = async (_openid) => {
@@ -44,8 +44,8 @@ exports.main = async (event, context) => {
     res = await addUser(OPENID, data);
   } else if (func === 'getUser') {
     res = await getUser(OPENID);
-  } else if (func === 'getOpenId') {
-    res = OPENID;
+  } else if (func === 'updateUser') {
+    res = await addUser(OPENID, data);
   }
   return res;
 }

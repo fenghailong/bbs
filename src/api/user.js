@@ -10,6 +10,16 @@ export async function getUser(data) {
   })
 }
 
+export async function updateUser(data) {
+  return await wx.cloud.callFunction({
+    name: 'user',
+    data: {
+      func: 'updateUser',
+      data,
+    },
+  })
+}
+
 export function getCurrentUser(data) {
   return authRequest('user')
 }
@@ -23,12 +33,6 @@ export function logout(token) {
   })
 }
 
-export function updateUser(data) {
-  return authRequest('user', {
-    method: 'put',
-    data: data
-  })
-}
 
 export function updateAvatar(avatar) {
   return uploadFile('images', {

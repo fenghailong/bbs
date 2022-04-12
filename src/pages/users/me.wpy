@@ -22,26 +22,28 @@
     <div class="page__bd" >
       <div class="weui-cells weui-cells_after-title">
         <!-- 已登录 -->
-        <a class="weui-cell weui-cell_access" v-if="isLoggedIn" url="/pages/users/edit">
+        <div class="weui-cell weui-cell_access" v-if="isLoggedIn">
           <div class="weui-cell__hd avatar-wrap">
-            <image class="avatar" :src="user.avatar"/>
+            <image class="avatar" :src="user.avatarUrl"/>
           </div>
           <div class="weui-cell__bd">
-            <div>{{ user.name }}</div>
-            <div class="page__desc">{{ user.introduction || '' }}</div>
+            {{ user.nickName }}
           </div>
-          <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-        </a>
+          <!-- <div class="weui-cell__ft weui-cell__ft_in-access"></div> -->
+        </div>
         <!-- 未登录 -->
-        <button class="weui-cell weui-cell_access" v-else url="/pages/auth/login">
-          <div class="weui-cell__hd avatar-wrap">
-            <image src="/assets/images/user.png" class="avatar"/>
-          </div>
-          <div class="weui-cell__bd">
-            <div>未登录</div>
-          </div>
-          <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-        </button>
+        <block v-else>
+          <button class="weui-cell weui-cell_access" bindtap="getUserProfile">
+            <div class="weui-cell__hd avatar-wrap">
+              <image src="/assets/images/user.png" class="avatar"/>
+            </div>
+            <div class="weui-cell__bd">
+              <div>未登录</div>
+            </div>
+            <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+          </button>
+        </block>
+
         <a class="weui-cell weui-cell_access" url="/pages/notifications/index">
           <div class="weui-cell__bd" url="">
             <div class="weui-cell__bd">我的消息</div>
@@ -81,7 +83,12 @@
     store,
     mixins: [ syncBadge ],
     computed: {
-      ...mapGetters(['user','isLoggedIn', 'unreadCount'])
+      ...mapGetters(['user','isLoggedIn', '_id', 'unreadCount'])
+    },
+    onLoad() {
+      if (wx.getUserProfile) {
+        this.canIUseGetUserProfile = false
+      }
     },
     async onShow() {
       await this.$store.dispatch('getUser')
@@ -92,7 +99,20 @@
         try {
           await this.$store.dispatch('logout')
         } catch (err) {}
-      }
+      },
+      // 获取用户信息
+      getUserProfile(e) {
+        wx.getUserProfile({
+          desc: '用于完善会员资料',
+          success: async (res) => {
+            let data = {
+              _id: this._id,
+              userInfo: res.userInfo
+            }
+            await this.$store.dispatch('updateUser', data)
+          }
+        })
+      },
     }
   })
 </script>

@@ -145,6 +145,8 @@
       ...mapGetters([ 'unreadCount' ])
     },
     async onLoad() {
+      await this.$store.dispatch('login')
+
       this.loadTopics()
       // this.loadCategories()
       eventHub.$on('topic-deleted', (topic) => {

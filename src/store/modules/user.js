@@ -7,8 +7,7 @@ import { getUser, logout, updateUser } from '@/api/user'
 const getDefaultState = () => {
   return {
     user: auth.getUser(),
-    accessToken: auth.getToken(),
-    accessTokenExpiredAt: auth.getTokenExpiredAt(),
+    _id: auth.getId(),
   }
 }
 
@@ -18,60 +17,35 @@ const state = getDefaultState()
 var getters = {
   isLoggedIn: state => !isEmpty(state.user),
   user: state => state.user,
-  accessToken: state => state.accessToken,
-  accessTokenExpiredAt: state => state.accessTokenExpiredAt,
+  _id: state => state._id,
 }
 
 // 定义 actions
 const actions = {
-  async register ({ dispatch }, params = {}) {
-    const loginData = await wepy.wx.login()
-    params.code = loginData.code
-
-    await register(params)
-
-    await dispatch('login')
-  },
-  async login ({ dispatch, commit }, params = {}) {
-    const loginData = await wepy.wx.login()
-    params.code = loginData.code
-
-    const authResponse = await login(params)
-
-    commit('setToken', authResponse.data)
-    auth.setToken(authResponse.data)
-
-    dispatch('getUser')
+  async login ({ dispatch, commit }) {
+    const authResponse = await login()
+    commit('setId', authResponse.result[0])
+    auth.setId(authResponse.result[0])
   },
 
   async getUser ({ dispatch, commit }) {
     const userResponse = await getUser()
-
     commit('setUser', userResponse.result[0].userInfo)
     auth.setUser(userResponse.result[0].userInfo)
   },
 
   async refresh ({ dispatch, commit, state }, params = {}) {
     const refreshResponse = await refresh(state.accessToken)
-
     commit('setToken', refreshResponse.data)
     auth.setToken(refreshResponse.data)
-
     dispatch('getUser')
-  },
-
-  async logout ({ commit, state }) {
-    await logout(state.accessToken)
-
-    // 清空 storage
-    auth.logout()
-    commit('resetState')
   },
 
   async updateUser ({ commit }, params = {}) {
     const editResponse = await updateUser(params)
-    commit('setUser', editResponse.data)
-    auth.setUser(editResponse.data)
+    console.log(editResponse)
+    commit('setUser', editResponse.result)
+    auth.setUser(editResponse.result)
   }
 }
 
@@ -80,9 +54,8 @@ const mutations = {
   setUser(state, user) {
     state.user = user
   },
-  setToken(state, tokenPayload) {
-    state.accessToken = tokenPayload.access_token
-    state.accessTokenExpiredAt = new Date().getTime() + tokenPayload.expires_in * 1000
+  setId(state, tokenPayload) {
+    state._id = tokenPayload._id
   },
 
   resetState: (state) => {

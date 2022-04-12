@@ -1,7 +1,12 @@
 import { request } from '@/utils/request'
 
-export function login(data) {
-  return request('weapp/authorizations', {method: 'post', data: data})
+// export function login(data) {
+//   return request('weapp/authorizations', {method: 'post', data: data})
+// }
+export async function login() {
+  return await wx.cloud.callFunction({
+    name: 'login'
+  })
 }
 
 export function refresh(token) {
