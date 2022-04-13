@@ -28,14 +28,14 @@
   import wepy from '@wepy/core'
   import store from '@/store'
   import { mapGetters } from '@wepy/x'
-  import { createReply } from '@/api/reply'
+  import { addReply } from '@/api/reply'
   import eventHub from '@/common/eventHub'
 
   wepy.page({
     store,
     computed: {
       // 用户信息
-      ...mapGetters(['isLoggedIn'])
+      ...mapGetters(['isLoggedIn','_id','user'])
     },
     data: {
       // 回复的话题id
@@ -43,12 +43,12 @@
       content: ''
     },
     onLoad(options) {
-      // 未登录跳转到登录页面
-      if (!this.isLoggedIn) {
-        wx.navigateTo({
-          url: '/pages/auth/login'
-        })
-      }
+      // // 未登录跳转到登录页面
+      // if (!this.isLoggedIn) {
+      //   wx.navigateTo({
+      //     url: '/pages/auth/login'
+      //   })
+      // }
       this.topicId = options.topic_id
     },
     methods: {
@@ -65,22 +65,27 @@
           return
         }
 
+        let options = {
+          topic_id: this.topicId,
+          content: this.content,
+          userInfo: this.user,
+          user_id: this._id,
+        }
         // 请求发布回复接口
-        let createResponse = await createReply(this.topicId, {
-          content: this.content
-        })
+        let createResponse = await addReply(options)
+        console.log(createResponse, '============')
 
-        // 提示发布成功
-        wx.showToast({
-          title: '发布成功',
-          icon: 'success'
-        })
+        // // 提示发布成功
+        // wx.showToast({
+        //   title: '发布成功',
+        //   icon: 'success'
+        // })
 
-        // 2 秒后返回上一页
-        setTimeout(function() {
-          eventHub.$emit('reply-created', createResponse.data);
-          wx.navigateBack()
-        }, 2000)
+        // // 2 秒后返回上一页
+        // setTimeout(function() {
+        //   eventHub.$emit('reply-created', createResponse.data);
+        //   wx.navigateBack()
+        // }, 2000)
       }
     }
   })

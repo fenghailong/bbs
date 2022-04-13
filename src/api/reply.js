@@ -1,5 +1,24 @@
 import { request, authRequest } from '@/utils/request'
 
+export async function addReply(data) {
+  return await wx.cloud.callFunction({
+    name: 'topic',
+    data: {
+      func: 'addReply',
+      data,
+    },
+  })
+}
+export async function getReply(data) {
+  return await wx.cloud.callFunction({
+    name: 'topic',
+    data: {
+      func: 'getReply',
+      data,
+    },
+  })
+}
+
 export function getReplies(topicId, data) {
   return request('topics/' + topicId + '/replies', {
     data: data
@@ -8,13 +27,6 @@ export function getReplies(topicId, data) {
 
 export function getUserReplies(userId, data) {
   return request('users/' + userId + '/replies', {
-    data: data
-  })
-}
-
-export function createReply(topicId, data) {
-  return authRequest('topics/' + topicId + '/replies', {
-    method: 'POST',
     data: data
   })
 }

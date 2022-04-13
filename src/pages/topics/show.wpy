@@ -33,11 +33,11 @@
       <div class="weui-cells weui-cells_after-title">
         <a open-type="redirect" class="weui-cell weui-cell_access" url="/pages/users/show?id={{ topic.user.id }}">
           <div class="weui-cell__hd avatar-wrap">
-            <image class="avatar" :src="topic.user.avatar"/>
+            <image class="avatar" :src="topic.userInfo.avatarUrl"/>
           </div>
           <div class="weui-cell__bd">
-            <div>{{ topic.user.nickName }}</div>
-            <div class="page__desc">{{ topic.user.introduction }}</div>
+            <div>{{ topic.userInfo.nickName }}</div>
+            <!-- <div class="page__desc">{{ topic.user.introduction }}</div> -->
           </div>
           <div class="weui-cell__ft weui-cell__ft_in-access"></div>
         </a>
@@ -45,8 +45,8 @@
       <div class="topic-title">
         <div class="page__title">{{ topic.title }}</div>
         <div class="weui-media-box__info topic-info">
-          <div class="weui-media-box__info__meta">{{ topic.category.name }} • </div>
-          <div class="weui-media-box__info__meta"><datetime-diff :datetime="topic.updated_at"></datetime-diff> • </div>
+          <!-- <div class="weui-media-box__info__meta">{{ topic.category.name }} • </div> -->
+          <div class="weui-media-box__info__meta"><datetime-diff :datetime="topic._updateTime"></datetime-diff> • </div>
           <div class="weui-media-box__info__meta">{{ topic.reply_count }} 次回复</div>
         </div>
       </div>
@@ -58,25 +58,25 @@
       <div class="weui-panel weui-panel_access" v-if="topic.reply_count">
         <div class="weui-panel__hd">回复 ({{ topic.reply_count }})</div>
         <div class="weui-panel__bd">
-          <div v-for="reply in topic.top_replies" :key="reply.id">
+          <div v-for="reply in topic.replyMessage" :key="reply._id">
             <div class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
               <a class="weui-media-box__hd weui-media-box__hd_in-appmsg" url="/pages/users/show?id={{ reply.user_id }}">
-                <image class="replyer-avatar weui-media-box__thumb" :src="reply.user.avatar" />
+                <image class="replyer-avatar weui-media-box__thumb" :src="reply.userInfo.avatarUrl" />
               </a>
               <div class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                <div class="weui-media-box__title">{{ reply.user.name }}</div>
+                <div class="weui-media-box__title">{{ reply.userInfo.nickName }}</div>
                 <div class="weui-media-box__desc"><rich-text nodes="{{ reply.content }}" bindtap="tap"></rich-text></div>
-                <div class="weui-media-box__desc"><datetime-diff :datetime="reply.created_at"></datetime-diff></div>
+                <div class="weui-media-box__desc"><datetime-diff :datetime="reply.create_time"></datetime-diff></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="weui-panel__ft">
+        <!-- <div class="weui-panel__ft">
           <a class="weui-cell weui-cell_access weui-cell_link" url="/pages/replies/index?id={{ topic.id }}">
             <div class="weui-cell__bd">查看全部回复</div>
             <div class="weui-cell__ft weui-cell__ft_in-access"></div>
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
     <reply-create-link :topicId="topic.id"></reply-create-link>
