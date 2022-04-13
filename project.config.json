@@ -1,5 +1,5 @@
 {
-  "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "description": "bbs",
   "setting": {
     "urlCheck": false,
     "es6": false,
@@ -27,7 +27,7 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "useIsolateContext": false,
+    "useIsolateContext": true,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
@@ -35,8 +35,7 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false,
-    "ignoreUploadUnusedFiles": true
+    "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
   "appid": "wxb41b8b63bdda4f13",
@@ -46,15 +45,33 @@
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "libVersion": "2.13.2",
+  "scripts": {},
   "packOptions": {
     "ignore": [],
     "include": []
   },
-  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
-  "srcMiniprogramRoot": "weapp/",
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
+  "watchOptions": {
+    "ignore": []
   },
-  "condition": {}
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "staticServerOptions": {
+    "servePath": ""
+  },
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": []
+    }
+  }
 }

@@ -79,7 +79,7 @@
         </div> -->
       </div>
     </div>
-    <reply-create-link :topicId="topic.id"></reply-create-link>
+    <reply-create-link :topicId="topic._id"></reply-create-link>
   </div>
 </template>
 <config>

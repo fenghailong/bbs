@@ -7,7 +7,7 @@ import { getUser, logout, updateUser } from '@/api/user'
 const getDefaultState = () => {
   return {
     user: auth.getUser(),
-    _id: auth.getId(),
+    _id: auth.getId()
   }
 }
 
@@ -17,7 +17,7 @@ const state = getDefaultState()
 var getters = {
   isLoggedIn: state => !isEmpty(state.user),
   user: state => state.user,
-  _id: state => state._id,
+  _id: state => state._id
 }
 
 // 定义 actions

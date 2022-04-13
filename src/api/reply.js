@@ -2,20 +2,20 @@ import { request, authRequest } from '@/utils/request'
 
 export async function addReply(data) {
   return await wx.cloud.callFunction({
-    name: 'topic',
+    name: 'reply',
     data: {
       func: 'addReply',
-      data,
-    },
+      data
+    }
   })
 }
 export async function getReply(data) {
   return await wx.cloud.callFunction({
-    name: 'topic',
+    name: 'reply',
     data: {
       func: 'getReply',
-      data,
-    },
+      data
+    }
   })
 }
 

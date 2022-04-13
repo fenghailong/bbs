@@ -35,7 +35,7 @@
     store,
     computed: {
       // 用户信息
-      ...mapGetters(['isLoggedIn','_id','user'])
+      ...mapGetters(['_id','user','isLoggedIn'])
     },
     data: {
       // 回复的话题id
@@ -49,11 +49,13 @@
       //     url: '/pages/auth/login'
       //   })
       // }
+      console.log(options)
       this.topicId = options.topic_id
     },
     methods: {
       // 提交表单
       async submit () {
+        console.log(this.topicId)
         // 如果未填写内容，提示用户
         if (!this.content) {
           wx.showToast({
@@ -64,7 +66,7 @@
 
           return
         }
-
+        console.log(this.topicId)
         let options = {
           topic_id: this.topicId,
           content: this.content,
