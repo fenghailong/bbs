@@ -197,8 +197,7 @@
         // 请求话题列表接口
         const topicsResponse = await getTopics(params)
         // 将数据合并到 this.topics
-        this.topics = reset ? topicsResponse.result.data.data : this.topics.concat(topicsResponse.result.data.data)
-        console.log(this.topics)
+        this.topics = reset ? topicsResponse.result.data : this.topics.concat(topicsResponse.result.data)
         // const pagination = topicsResponse.result.data.meta
 
         // // 根据分页设置是否还有更多数据

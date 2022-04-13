@@ -2,8 +2,21 @@ import { request, authRequest } from '@/utils/request'
 
 export async function getTopics(data) {
   return await wx.cloud.callFunction({
-    name: 'getTopics',
-    data,
+    name: 'topic',
+    data: {
+      func: 'getTopics',
+      data
+    },
+  })
+}
+
+export async function getTopicById(data) {
+  return await wx.cloud.callFunction({
+    name: 'topic',
+    data: {
+      func: 'getTopicById',
+      data
+    },
   })
 }
 
@@ -11,11 +24,6 @@ export function getCategories(data) {
   return request('categories')
 }
 
-export function getTopic(id, data) {
-  return request('topics/' + id, {
-    data: data
-  })
-}
 
 export function getUserTopics(userId, data) {
   return request('users/' + userId + '/topics', {
