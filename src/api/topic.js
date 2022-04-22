@@ -20,6 +20,16 @@ export async function getTopicById(data) {
   })
 }
 
+export async function addTopic(data) {
+  return await wx.cloud.callFunction({
+    name: 'topic',
+    data: {
+      func: 'addTopic',
+      data
+    },
+  })
+}
+
 export function getCategories(data) {
   return request('categories')
 }
