@@ -86,6 +86,7 @@
           })
           return
         }
+        wx.showLoading({title: '发布中'})
         let options = {
           title: this.title,
           content: this.content,
@@ -95,6 +96,7 @@
         console.log(options)
         // 请求发布回复接口
         let createResponse = await addTopic(options)
+        wx.hideLoading()
         console.log(createResponse, '============')
 
         // 提示发布成功

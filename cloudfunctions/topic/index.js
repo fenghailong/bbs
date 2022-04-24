@@ -21,7 +21,7 @@ const getTopics = async (data) => {
 
 const getTopicById = async (_id) => {
   const topic = await collection.doc(_id).get();
-  return topic;
+  return topic
 }
 
 const addTopic = async (data) => {

@@ -66,7 +66,7 @@
 
           return
         }
-        console.log(this.topicId)
+        wx.showLoading({title: '评论中'})
         let options = {
           topic_id: this.topicId,
           content: this.content,
@@ -75,19 +75,18 @@
         }
         // 请求发布回复接口
         let createResponse = await addReply(options)
-        console.log(createResponse, '============')
+        wx.hideLoading()
+                // 提示发布成功
+         wx.showToast({
+           title: '评论成功',
+           icon: 'success'
+        })
 
-        // // 提示发布成功
-        // wx.showToast({
-        //   title: '发布成功',
-        //   icon: 'success'
-        // })
-
-        // // 2 秒后返回上一页
-        // setTimeout(function() {
-        //   eventHub.$emit('reply-created', createResponse.data);
-        //   wx.navigateBack()
-        // }, 2000)
+        // 1 秒后返回上一页
+        setTimeout(function() {
+          eventHub.$emit('reply-created', createResponse.result.data);
+          wx.navigateBack()
+        }, 1000)
       }
     }
   })

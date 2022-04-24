@@ -101,6 +101,7 @@
 </template>
 <config>
   {
+    navigationBarTitleText: '公务圈',
     enablePullDownRefresh: true,
     usingComponents: {
      "topic-list": "~@/components/topic-list"

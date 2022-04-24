@@ -30,29 +30,29 @@ wepy.app({
       })
     }
     this.$store = this.$options.store;
-    this.updateUnreadCount()
+    // this.updateUnreadCount()
 
-    setInterval(() => {
-      this.updateUnreadCount()
-    }, 60000)
+    // setInterval(() => {
+    //   this.updateUnreadCount()
+    // }, 60000)
   },
 
   methods: {
     async updateUnreadCount() {
       await this.$store.dispatch('updateUnreadCount')
     },
-    can(targetPerm) {
-      if (!this.$store.getters.isLoggedIn) {
-        return false
-      }
+    // can(targetPerm) {
+    //   if (!this.$store.getters.isLoggedIn) {
+    //     return false
+    //   }
 
-      // 判断权限中是否有目标权限
-      if (this.$store.getters.perms.find(perm => perm.name === targetPerm)) {
-        return true
-      }
+    //   // 判断权限中是否有目标权限
+    //   if (this.$store.getters.perms.find(perm => perm.name === targetPerm)) {
+    //     return true
+    //   }
 
-      return false
-    }
+    //   return false
+    // }
   }
 });
 </script>
@@ -88,8 +88,8 @@ wepy.app({
       },{
         pagePath: 'pages/topics/create',
         text: '发布',
-        iconPath: 'assets/images/index.png',
-        selectedIconPath: 'assets/images/index-selected.png'
+        iconPath: 'assets/images/commit.png',
+        selectedIconPath: 'assets/images/commit-selected.png'
       },{
         pagePath: 'pages/users/me',
         text: '我的',
