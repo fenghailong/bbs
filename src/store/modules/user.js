@@ -24,7 +24,10 @@ var getters = {
 const actions = {
   async login ({ dispatch, commit }) {
     const authResponse = await login()
+    console.log(authResponse.result[0], '========login')
     commit('setId', authResponse.result[0])
+    commit('setUser', authResponse.result[0].userInfo)
+    auth.setUser(authResponse.result[0].userInfo)
     auth.setId(authResponse.result[0])
   },
 

@@ -39,7 +39,7 @@ const randomName = (prefix = "看客", randomLength = 7) => {
 
 const login = async (_openid) => {
   let user;
-  const hasUser = await collection.where({ wechat_openid: _openid }).get();
+  let hasUser = await collection.where({ wechat_openid: _openid }).get();
   if (Array.isArray(hasUser.data) && hasUser.data.length === 0) {
     await collection.add({
       data: {
@@ -55,6 +55,8 @@ const login = async (_openid) => {
         }
       }
     });
+    hasUser = await collection.where({ wechat_openid: _openid }).get();
+    user = hasUser.data;
   } else {
     user = hasUser.data;
   }
